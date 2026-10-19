@@ -1,0 +1,22 @@
+{
+  "name": "LUDO EMPIRE",
+  "short_name": "LUDO EMPIRE",
+  "description": "Hyper-realistic 3D Dark Fantasy & Cosmic Singularity Multiplayer Ludo Game (2, 4, 6 Players)",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#040507",
+  "icons": [
+    {
+      "src": "/icon-dark-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
