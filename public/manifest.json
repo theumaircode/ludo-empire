@@ -1,24 +1,39 @@
 {
+  "id": "/",
   "name": "LUDO EMPIRE",
   "short_name": "LUDO EMPIRE",
   "description": "2, 4, and 6-Player Cosmic Singularity & Mysterious Forest Ludo Strategy Game",
   "start_url": "/",
-  "display": "standalone",
-  "orientation": "any",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "portrait",
   "background_color": "#000000",
   "theme_color": "#05070b",
+  "categories": ["games", "entertainment"],
   "icons": [
     {
-      "src": "/images/game-icon.jpg",
+      "src": "/images/icon-192.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/images/game-icon.jpg",
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/images/icon-512.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
