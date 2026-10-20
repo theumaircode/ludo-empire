@@ -26,6 +26,7 @@ import {
 } from '@/lib/ludo-engine'
 import { BlackHoleSingularity } from './black-hole-singularity'
 import { SculptedPieceToken } from './sculpted-piece-token'
+import { SculptedChessPiece3D } from './sculpted-chess-piece-3d'
 
 interface LudoEmpireBoardProps {
   players: PlayerState[]
@@ -103,7 +104,7 @@ export function LudoEmpireBoard({
   }
 
   return (
-    <div className="relative w-full max-w-[590px] aspect-square mx-auto select-none">
+    <div className="relative w-full aspect-square mx-auto select-none">
       {/* Outer Ancient Carved Rune Stone Altar Base */}
       <div
         className="relative w-full h-full rounded-2xl p-2.5 sm:p-3.5 shadow-[0_30px_90px_rgba(0,0,0,0.95)] border-2"
@@ -318,25 +319,25 @@ export function LudoEmpireBoard({
                       )}
                     </div>
 
-                    <div className="grid grid-cols-2 grid-rows-2 gap-1.5 sm:gap-2.5 flex-1 my-1">
+                    <div className="grid grid-cols-2 grid-rows-2 gap-1 sm:gap-2 flex-1 my-0.5">
                       {SCULPTED_PIECES.map((sculpt) => (
                         <div
                           key={sculpt.id}
-                          className="rounded-lg border flex flex-col items-center justify-end p-1 relative overflow-hidden"
+                          className="rounded-lg border flex flex-col items-center justify-end p-0.5 sm:p-1 relative overflow-hidden"
                           style={{
                             borderColor: `${boardSkin.goldTrim}88`,
                             background:
-                              'radial-gradient(circle, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.85) 100%)',
+                              'radial-gradient(circle, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.88) 100%)',
                           }}
                         >
-                          <div
-                            className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border opacity-35"
-                            style={{
-                              borderColor: faction.glowHex,
-                              backgroundColor: faction.primaryHex,
-                            }}
-                          />
-                          <span className="text-[7px] sm:text-[8px] font-display tracking-widest text-amber-200/60 uppercase mt-0.5">
+                          <div className="w-5 h-6 sm:w-6 sm:h-7 opacity-20 pointer-events-none">
+                            <SculptedChessPiece3D
+                              sculptType={sculpt.id}
+                              faction={cornerFactions[cornerIdx]}
+                              skinId={pieceSkinId}
+                            />
+                          </div>
+                          <span className="text-[6px] sm:text-[7.5px] font-display tracking-widest text-amber-200/60 uppercase leading-none">
                             {sculpt.shortLabel}
                           </span>
                         </div>

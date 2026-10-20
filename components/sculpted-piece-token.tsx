@@ -3,11 +3,11 @@
 import React from 'react'
 import {
   FACTIONS,
-  PIECE_SKINS,
   PieceInstance,
   PieceSkinId,
   SCULPTED_PIECES,
 } from '@/lib/game-types'
+import { SculptedChessPiece3D } from './sculpted-chess-piece-3d'
 
 interface SculptedPieceTokenProps {
   piece: PieceInstance
@@ -31,12 +31,12 @@ export function SculptedPieceToken({
   const sculpt =
     SCULPTED_PIECES.find((s) => s.id === piece.sculptType) || SCULPTED_PIECES[0]
   const faction = FACTIONS[piece.faction]
-  const skin = PIECE_SKINS[skinId] || PIECE_SKINS['heirloom-gold']
 
+  // Standing 3D Chess Piece dimensions (taller than wide, anchored at bottom pedestal)
   const sizeClasses =
     boardScale === 'compact'
-      ? 'w-6 h-7 sm:w-8 sm:h-9'
-      : 'w-7 h-8 sm:w-9 sm:h-11 md:w-10 md:h-12'
+      ? 'w-6 h-8 sm:w-8 sm:h-10'
+      : 'w-7 h-9 sm:w-9 sm:h-11 md:w-10 md:h-12'
 
   return (
     <button
@@ -47,18 +47,19 @@ export function SculptedPieceToken({
         if (isMovable) onSelect(piece)
       }}
       title={`${faction.name} — ${sculpt.name}`}
+      aria-label={`${faction.name} — ${sculpt.name}`}
       style={{
-        transform: `translate(calc(-50% + ${stackOffset.dx}px), calc(-62% + ${stackOffset.dy}px))`,
+        transform: `translate(calc(-50% + ${stackOffset.dx}px), calc(-66% + ${stackOffset.dy}px))`,
       }}
-      className={`group relative ${sizeClasses} flex flex-col items-center justify-end select-none transition-all duration-300 ${
+      className={`group relative ${sizeClasses} flex flex-col items-center justify-end select-none transition-all duration-300 bg-transparent border-0 p-0 ${
         isMovable
-          ? 'cursor-pointer z-30 scale-110 hover:scale-125'
+          ? 'cursor-pointer z-30 scale-115 hover:scale-130 -translate-y-1'
           : 'cursor-default z-20'
-      } ${isSelected ? 'scale-125 z-40' : ''}`}
+      } ${isSelected ? 'scale-130 z-40' : ''}`}
     >
-      {/* Floating Target Beacon when this sculpted piece can move */}
+      {/* Floating Target Gem Beacon above movable 3D piece */}
       {isMovable && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none animate-bounce">
+        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none animate-bounce z-40">
           <div
             className="w-2.5 h-2.5 rotate-45 border border-white"
             style={{
@@ -69,60 +70,37 @@ export function SculptedPieceToken({
         </div>
       )}
 
-      {/* Ground Pulsing Faction Ring when Movable */}
+      {/* Ground Pulsing Faction Ring Beneath the 3D Chess Pedestal when Movable */}
       {isMovable && (
         <div
-          className="absolute -bottom-1 w-full h-3.5 rounded-full animate-ping pointer-events-none"
+          className="absolute bottom-0.5 w-[88%] h-3 rounded-full animate-ping pointer-events-none"
           style={{
-            backgroundColor: `${faction.primaryHex}66`,
+            backgroundColor: `${faction.primaryHex}77`,
             border: `1.5px solid ${faction.glowHex}`,
           }}
         />
       )}
 
-      {/* 3D Sculpted Bust / Figurine Body */}
-      <div
-        className="relative w-full h-[84%] rounded-t-full rounded-b-xl overflow-hidden border-2 transition-transform"
-        style={{
-          borderColor: isMovable ? '#fef08a' : faction.primaryHex,
-          background: skin.rimGradient,
-          boxShadow: isMovable
-            ? `0 6px 16px rgba(0,0,0,0.9), 0 0 16px ${faction.glowHex}`
-            : `0 5px 12px rgba(0,0,0,0.88), 0 0 6px ${faction.primaryHex}88`,
-        }}
-      >
-        {/* Actual Hyper-Realistic 3D Reference Image of the Sculpted Piece */}
-        <img
-          src={sculpt.image}
-          alt={sculpt.name}
-          className="w-full h-full object-cover object-top scale-125"
-          style={{
-            filter: skin.imageFilter,
-          }}
-        />
-
-        {/* Faction Color Crest Tint Overlay at the bottom of the pedestal */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-2.5"
-          style={{
-            background: `linear-gradient(to top, ${faction.primaryHex} 0%, transparent 100%)`,
-          }}
+      {/* Pure 3D Carved Chess-Piece Structure (No Photo Background!) */}
+      <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
+        <SculptedChessPiece3D
+          sculptType={piece.sculptType}
+          faction={piece.faction}
+          skinId={skinId}
+          isGlowing={isMovable}
+          className="w-full h-full"
         />
       </div>
 
-      {/* Heavy Carved Gold & Gemstone Pedestal Base */}
-      <div
-        className="w-[92%] h-[22%] -mt-1 rounded-full border flex items-center justify-center relative z-10"
-        style={{
-          background: `linear-gradient(90deg, ${faction.secondaryHex} 0%, ${faction.primaryHex} 50%, ${faction.secondaryHex} 100%)`,
-          borderColor: '#fde68a',
-          boxShadow: '0 3px 6px rgba(0,0,0,0.95)',
-        }}
-      >
-        <span className="text-[6.5px] sm:text-[7.5px] font-display font-bold tracking-tighter text-white drop-shadow">
-          {sculpt.shortLabel[0]}
+      {/* Tiny Stack Count Badge if multiple pieces occupy the same tile */}
+      {stackOffset.count > 1 && (
+        <span
+          className="absolute -right-1 bottom-1 px-1 rounded-full text-[8px] font-mono font-bold text-white border border-amber-300 z-40"
+          style={{ backgroundColor: faction.primaryHex }}
+        >
+          ×{stackOffset.count}
         </span>
-      </div>
+      )}
     </button>
   )
 }

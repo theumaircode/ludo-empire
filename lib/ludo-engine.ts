@@ -132,44 +132,46 @@ export const HOME_STRETCH_4P_RC: Record<number, [number, number][]> = {
 export const BASE_PEDESTALS_4P_RC: Record<number, [number, number][]> = {
   // Corner 0: Bottom-Left (rows 9..14, cols 0..5)
   0: [
-    [10.3, 1.5],
-    [10.3, 3.5],
-    [12.6, 1.5],
-    [12.6, 3.5],
+    [10.9, 1.55],
+    [10.9, 3.55],
+    [13.1, 1.55],
+    [13.1, 3.55],
   ],
   // Corner 1: Top-Left (rows 0..5, cols 0..5)
   1: [
-    [1.4, 1.5],
-    [1.4, 3.5],
-    [3.6, 1.5],
-    [3.6, 3.5],
+    [1.9, 1.55],
+    [1.9, 3.55],
+    [4.1, 1.55],
+    [4.1, 3.55],
   ],
   // Corner 2: Top-Right (rows 0..5, cols 9..14)
   2: [
-    [1.4, 10.5],
-    [1.4, 12.5],
-    [3.6, 10.5],
-    [3.6, 12.5],
+    [1.9, 10.55],
+    [1.9, 12.55],
+    [4.1, 10.55],
+    [4.1, 12.55],
   ],
   // Corner 3: Bottom-Right (rows 9..14, cols 9..14)
   3: [
-    [10.3, 10.5],
-    [10.3, 12.5],
-    [12.6, 10.5],
-    [12.6, 12.5],
+    [10.9, 10.55],
+    [10.9, 12.55],
+    [4.1 + 9, 10.55],
+    [4.1 + 9, 12.55],
   ],
 }
 
 // ---------------------------------------------------------------------------
 // 6-Player Radial Hex-Star Board Geometry (0..100%)
+// Aligned so p=0 is Bottom-Left (150°), p=1 is Top-Left (210°), p=2 is North (270°),
+// p=3 is Top-Right (330°), p=4 is Bottom-Right (30°), p=5 is South (90°)
 // ---------------------------------------------------------------------------
 // 48 outer track tiles, 8 per player sector
 export const OUTER_TRACK_6P_COORDS: BoardCoord[] = (() => {
   const coords: BoardCoord[] = []
   const total = 48
   for (let i = 0; i < total; i++) {
-    // Star-modulated radius so it forms an ornate 6-pointed sacred geometry track
-    const angleDeg = -90 + (i / total) * 360
+    // Start at 150 deg (Bottom-Left / South-West) for Player 0
+    const angleDeg = 150 + (i / total) * 360
     const angleRad = (angleDeg * Math.PI) / 180
     const sectorPhase = (i % 8) / 8
     // Subtle hex-star indentation
@@ -188,7 +190,7 @@ export const SAFE_INDICES_6P = new Set([0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40,
 export const HOME_STRETCH_6P_COORDS: Record<number, BoardCoord[]> = (() => {
   const stretches: Record<number, BoardCoord[]> = {}
   for (let p = 0; p < 6; p++) {
-    const angleDeg = -90 + p * 60
+    const angleDeg = 150 + p * 60
     const angleRad = (angleDeg * Math.PI) / 180
     const radii = [27.5, 22.5, 17.5, 13.0]
     stretches[p] = radii.map((r) => ({
@@ -202,16 +204,16 @@ export const HOME_STRETCH_6P_COORDS: Record<number, BoardCoord[]> = (() => {
 export const BASE_PEDESTALS_6P_COORDS: Record<number, BoardCoord[]> = (() => {
   const bases: Record<number, BoardCoord[]> = {}
   for (let p = 0; p < 6; p++) {
-    // Place sanctuaries in the 6 outer alcoves
-    const centerAngleDeg = -90 + p * 60 + 26
+    // Place sanctuaries in the 6 outer alcoves aligned with each player's side station
+    const centerAngleDeg = 150 + p * 60 - 22
     const centerRad = (centerAngleDeg * Math.PI) / 180
     const baseCenterX = 50 + Math.cos(centerRad) * 43.2
     const baseCenterY = 50 + Math.sin(centerRad) * 43.2
     const offsets = [
-      [-3.1, -3.1],
-      [3.1, -3.1],
-      [-3.1, 3.1],
-      [3.1, 3.1],
+      [-3.5, -4.5],
+      [3.5, -4.5],
+      [-3.5, 4.5],
+      [3.5, 4.5],
     ]
     bases[p] = offsets.map(([dx, dy]) => ({
       x: Math.max(5, Math.min(95, baseCenterX + dx)),

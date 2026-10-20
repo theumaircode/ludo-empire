@@ -18,12 +18,12 @@ const rajdhani = Rajdhani({
 export const metadata: Metadata = {
   title: 'LUDO EMPIRE',
   description:
-    'Hyper-realistic 3D Dark Fantasy & Cosmic Singularity Multiplayer Ludo Experience — 2, 4 & 6 Players.',
+    'Enter the Mysterious Forest and conquer the Black Hole Singularity to claim the Universe Ruling Ring.',
   manifest: '/manifest.json',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'black-translucent',
-    title: 'LUDO EMPIRE',
+  icons: {
+    icon: '/images/game-icon.jpg',
+    shortcut: '/images/game-icon.jpg',
+    apple: '/images/game-icon.jpg',
   },
 }
 

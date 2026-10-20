@@ -13,6 +13,7 @@ import {
   PieceSkinId,
   SCULPTED_PIECES,
 } from '@/lib/game-types'
+import { SculptedChessPiece3D } from './sculpted-chess-piece-3d'
 import { soundEngine } from '@/lib/sound-engine'
 
 interface ArmorySkinsModalProps {
@@ -158,22 +159,21 @@ export function ArmorySkinsModal({
                           {skin.subtitle}
                         </p>
 
-                        {/* Live Preview of all 4 Sculpted Pieces with this Skin */}
+                        {/* Live Preview of all 4 3D Sculpted Chess-Piece Structures with this Skin */}
                         <div className="grid grid-cols-4 gap-2 mb-4">
                           {SCULPTED_PIECES.map((sculpt) => (
                             <div
                               key={sculpt.id}
-                              className="rounded-lg overflow-hidden border border-amber-400/40 bg-black flex flex-col items-center"
+                              className="rounded-lg overflow-hidden border border-amber-400/40 bg-gradient-to-b from-slate-900/90 to-black p-1.5 flex flex-col items-center"
                             >
-                              <div className="w-full aspect-square overflow-hidden">
-                                <img
-                                  src={sculpt.image}
-                                  alt={sculpt.name}
-                                  className="w-full h-full object-cover"
-                                  style={{ filter: skin.imageFilter }}
+                              <div className="w-12 h-14 flex items-center justify-center">
+                                <SculptedChessPiece3D
+                                  sculptType={sculpt.id}
+                                  faction="crimson"
+                                  skinId={skin.id}
                                 />
                               </div>
-                              <span className="text-[9px] font-display font-bold py-1 text-amber-200">
+                              <span className="text-[9px] font-display font-bold pt-1 text-amber-200">
                                 {sculpt.shortLabel}
                               </span>
                             </div>
